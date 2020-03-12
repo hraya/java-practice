@@ -1,0 +1,147 @@
+Tables    Entity   -> Class
+Columns Attributes -> Fields
+Rows Tuples  -> Objects
+
+// Relation ships for the Guided Project rdbms
+
+Company -> Person
+1 -> Many
+
+Person -> Company
+Many -> 1
+
+Email -> Person
+Many -> 1
+
+Person -> Email
+1 - Many
+
+
+// order by which it is written
+SELCT
+FROM
+WHERE
+GROUP BY
+ORDER BY
+
+
+// HOW SQL IS FORMATTED:
+SELECT <COLUMNS>
+FROM <TABLES>
+WHERE <FILTERS>
+ORDER BY <COLUMNS SORT BY>
+
+select all from customers table
+SELECT *
+FROM customers
+
+only get company_name, contact_name, contact_title from customer table
+SELECT company_name, contact_name, contact_title
+FROM customers
+
+SQL Where
+SELECT company_name, contact_name, contact_title
+FROM customers
+WHERE upper(country) ='SWEDEN'
+
+SELECT product_name, units_in_stock
+FROM products
+WHERE units_in_stock < 10
+order BY units_in_stock desc
+
+SELECT
+FROM customers
+WHERE country in ('USA', 'Japan', 'Germany')
+ORDER BY country desc, city
+
+SELECT company_name as ourname, contact_name, concat(city, ' ', country)
+FROM customers
+WHERE country in ('USA', 'Japan', 'Germany')
+ORDER BY country desc, city
+
+SELECT *
+FROM customers
+LIMIT 5
+
+
+SELECT DISTINCT country
+FROM customers
+ORDER BY country
+
+SELECT count(*)
+FROM products
+
+SELECT count(DISTINCT unit_price)
+FROM products
+
+SELECT quantity_per_unit, count(*)
+FROM products
+GROUP BY quantity_per_unit
+ORDER BY prodcount DESC
+
+
+// SUbquery
+SELECT product_name
+FROM products
+WHERE unit_price =
+	(SELECT max(unit_price)
+	FROM products)
+
+  SELECT product_name
+FROM products
+WHERE unit_price =
+	(SELECT min(unit_price)
+	FROM products)
+
+  // can also do with agregate function have to put group by
+SELECT product_name, max(unit_price)
+FROM products
+GROUP BY product_name
+
+SELECT *
+FROM products
+WHERE unit_price between 10 and 20
+
+SELECT  company_name, contact_name, homepage
+FROM suppliers
+WHERE homepage is NULL
+
+
+SELECT country, count(customer_id)
+FROM customers
+GROUP BY country
+HAVING count(customer_id) >= 10
+
+//JOINS
+SELECT o.order_date, c.company_name, c.contact_name
+FROM orders o JOIN customers c
+ON o.customer_id = c.customer_id
+
+
+// RIGHT JOIN
+SELECT o.order_date, c.company_name, c.contact_name
+FROM orders o RIGHT JOIN customers c
+ON o.customer_id = c.customer_id
+
+SELECT o.order_date, c.company_name, c.contact_name
+FROM orders o RIGHT JOIN customers c
+ON o.customer_id = c.customer_id
+WHERE o.order_date is NOT NULL
+
+//INSERTING DATA
+INSERT INTO customers(customer_id, company_name, contact_name)
+VALUES (9191, 'Lambda School', 'Billy Bob'), (9192, 'Lambda School', 'Cinnamon')
+
+//UPDATING
+UPDATE products
+SET discontinued = 1
+WHERE unit_price < 10.00
+
+UPDATE suppliers
+SET city = 'Seattle', Phone = '555-555-5555', fax = '555-123-4567'
+WHERE supplier_id = 15
+
+// DELETING
+DELETE
+FROM customers
+WHERE customer_id = '9191'
